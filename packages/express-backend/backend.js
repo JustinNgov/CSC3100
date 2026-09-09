@@ -102,6 +102,10 @@ app.post("/users", (req, res) => {
     res.send();
 });
 
+app.get("/", (req, res) => {
+    res.send("Backend API is running");
+});
+
 app.listen(port, () => {
     console.log(`Example app listening at http://localhost:${port}`);
 

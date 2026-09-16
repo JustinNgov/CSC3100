@@ -59,56 +59,56 @@ const deleteUserById = (id) => {
 }
 
 app.delete("/users/:id", (req, res) => {
-    const id = req.params["id"];
-    let result = deleteUserById(id);
-    if (result === false) {
-    res.status(404).send("Resource not found.");
-  }else {
-    res.send();
-  }
+  const id = req.params["id"];
+  let result = deleteUserById(id);
+  if (result === false) {
+  res.status(404).send("Resource not found.");
+}else {
+  res.status(204).send();
+}
 });
 
 app.get("/users/:id", (req, res) => {
-    const id = req.params["id"];
-    let result = findUserById(id);
-    if (result === undefined){
-        res.status(404).send("Resource not found.");
-    }else{
-        res.send(result);
-    }
+  const id = req.params["id"];
+  let result = findUserById(id);
+  if (result === undefined){
+      res.status(404).send("Resource not found.");
+  }else{
+      res.send(result);
+  }
 });
 
 app.get("/users", (req, res) => {
-    const name = req.query.name;
-    const job = req.query.job;
+  const name = req.query.name;
+  const job = req.query.job;
 
-    if (name != undefined && job != undefined){
-        let result = findUserByNameAndJob(name, job);
-        result = { users_list: result };
-        res.send(result);
-    }else if (name != undefined){
-        let result = findUserByName(name);
-        result = { users_list: result };
-        res.send(result);
-    }else{res.send(users);}
+  if (name != undefined && job != undefined){
+    let result = findUserByNameAndJob(name, job);
+    result = { users_list: result };
+    res.send(result);
+  }else if (name != undefined){
+    let result = findUserByName(name);
+    result = { users_list: result };
+    res.send(result);
+  }else{res.send(users);}
     });
 
 const addUser = (user) => {
-    users["users_list"].push(user);
-    return user;
+  user.id = Math.floor(Math.random() * 100000).toString();
+  users["users_list"].push(user);
+  return user;
 };
 
 app.post("/users", (req, res) => {
-    const userToAdd = req.body;
-    addUser(userToAdd);
-    res.send();
+  const userToAdd = req.body;;
+  res.status(201).send(addUser(userToAdd));
 });
 
 app.get("/", (req, res) => {
-    res.send("Backend API is running");
+   res.send("Backend API is running");
 });
 
 app.listen(port, () => {
-    console.log(`Example app listening at http://localhost:${port}`);
+  console.log(`Example app listening at http://localhost:${port}`);
 
 });
